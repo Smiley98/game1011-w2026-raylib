@@ -68,8 +68,20 @@ int main()
 
         if (ball_position.y - ball_size * 0.5f <= 0.0f || ball_position.y + ball_size * 0.5f >= GetScreenHeight())
             ball_direction.y *= -1.0f;
-        if (ball_position.x - ball_size * 0.5f <= 0.0f || ball_position.x + ball_size * 0.5f >= GetScreenWidth())
-            ball_direction.x *= -1.0f;
+
+        // Player 1 goal (left player score on right net)
+        if (ball_position.x + ball_size * 0.5f >= GetScreenWidth())
+        {
+            ball_position = { GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f };
+            ball_direction = RandomBallDirection(Vector2UnitX * -1.0f);
+        }
+
+        // Player 2 goal (right player score on left net)
+        if (ball_position.x - ball_size * 0.5f <= 0.0f)
+        {
+            ball_position = { GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f };
+            ball_direction = RandomBallDirection(Vector2UnitX);
+        }
 
         BeginDrawing();
             ClearBackground(BLACK);
