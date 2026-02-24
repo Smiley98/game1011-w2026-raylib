@@ -92,15 +92,8 @@ int main()
             DrawRectangleRec(paddle1_rec, WHITE);
             DrawRectangleRec(paddle2_rec, WHITE);
             DrawRectangleRec(ball_rec, WHITE);
-
-            // In case anyone ever wants to centre text:
-            int score_font = 32;
-            const char* player1_score_text = TextFormat("A really really long body of text %i", player1_score);
-            int score_y = GetScreenHeight() * 0.1f;
-            int score_x1 = GetScreenWidth() * 0.25f - MeasureText(player1_score_text, score_font) * 0.5f;
-            DrawCircle(score_x1, score_y, 10.0f, RED);
-            DrawText(player1_score_text, score_x1, score_y, 32, WHITE);
-
+            DrawText(TextFormat("%i", player1_score), GetScreenWidth() * 0.25f, GetScreenHeight() * 0.1f, 32, WHITE);
+            DrawText(TextFormat("%i", player2_score), GetScreenWidth() * 0.75f, GetScreenHeight() * 0.1f, 32, WHITE);
         EndDrawing();
     }
 
