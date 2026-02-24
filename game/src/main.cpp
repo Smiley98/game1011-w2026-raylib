@@ -2,16 +2,16 @@
 #include "raymath.h"
 
 constexpr float paddle_width = 20.0f;
-constexpr float paddle_height = 80.0f;
+constexpr float paddle_height = 100.0f;
 
-void DrawPaddle(Vector2 position)
+void DrawRec(Vector2 position, float width, float height)
 {
-    Rectangle paddle;
-    paddle.x = position.x - paddle_width * 0.5f;
-    paddle.y = position.y - paddle_height * 0.5f;
-    paddle.width = paddle_width;
-    paddle.height = paddle_height;
-    DrawRectangleRec(paddle, WHITE);
+    Rectangle rec;
+    rec.x = position.x - width * 0.5f;
+    rec.y = position.y - height * 0.5f;
+    rec.width = width;
+    rec.height = height;
+    DrawRectangleRec(rec, WHITE);
 }
 
 int main()
@@ -20,9 +20,10 @@ int main()
     SetTargetFPS(60);
     
     float paddle_margin = GetScreenWidth() * 0.025f;
+    float paddle_speed = 500.0f;
     Vector2 paddle1_position = { paddle_margin, GetScreenHeight() * 0.5f };
     Vector2 paddle2_position = { GetScreenWidth() - paddle_margin, GetScreenHeight() * 0.5f };
-    float paddle_speed = 500.0f;
+    Vector2 ball_position = { GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f };
 
     while (!WindowShouldClose())
     {
@@ -45,8 +46,9 @@ int main()
 
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawPaddle(paddle1_position);
-        DrawPaddle(paddle2_position);
+        DrawRec(paddle1_position, paddle_width, paddle_height);
+        DrawRec(paddle2_position, paddle_width, paddle_height);
+        DrawRec(ball_position, 20.0f, 20.0f);
         EndDrawing();
     }
 
