@@ -22,9 +22,26 @@ int main()
     float paddle_margin = GetScreenWidth() * 0.025f;
     Vector2 paddle1_position = { paddle_margin, GetScreenHeight() * 0.5f };
     Vector2 paddle2_position = { GetScreenWidth() - paddle_margin, GetScreenHeight() * 0.5f };
+    float paddle_speed = 500.0f;
 
     while (!WindowShouldClose())
     {
+        float dt = GetFrameTime();
+
+        if (IsKeyDown(KEY_W))
+            paddle1_position.y -= paddle_speed * dt;
+
+        if (IsKeyDown(KEY_S))
+            paddle1_position.y += paddle_speed * dt;
+
+        if (IsKeyDown(KEY_UP))
+            paddle2_position.y -= paddle_speed * dt;
+
+        if (IsKeyDown(KEY_DOWN))
+            paddle2_position.y += paddle_speed * dt;
+
+        paddle1_position.y = Clamp(paddle1_position.y, paddle_height * 0.5f, GetScreenHeight() - paddle_height * 0.5f);
+        paddle2_position.y = Clamp(paddle2_position.y, paddle_height * 0.5f, GetScreenHeight() - paddle_height * 0.5f);
 
         BeginDrawing();
         ClearBackground(BLACK);
