@@ -57,7 +57,14 @@ int main()
 
         ball_position += ball_direction * ball_speed * dt;
 
+        // May need to offset position of ball when detecting collision to avoid unstable timestamp jittering bugs
+        // + ball_direction * ball_speed * dt
         Rectangle ball_rec = GetRec(ball_position, ball_size, ball_size);
+        Rectangle paddle1_rec = GetRec(paddle1_position, paddle_width, paddle_height);
+        Rectangle paddle2_rec = GetRec(paddle2_position, paddle_width, paddle_height);
+
+        if (CheckCollisionRecs(ball_rec, paddle1_rec) || CheckCollisionRecs(ball_rec, paddle2_rec))
+            ball_direction.x *= -1.0f;
 
         if (ball_position.y - ball_size * 0.5f <= 0.0f || ball_position.y + ball_size * 0.5f >= GetScreenHeight())
             ball_direction.y *= -1.0f;
@@ -65,10 +72,10 @@ int main()
             ball_direction.x *= -1.0f;
 
         BeginDrawing();
-        ClearBackground(BLACK);
-        DrawRectangleRec(GetRec(paddle1_position, paddle_width, paddle_height), WHITE);
-        DrawRectangleRec(GetRec(paddle2_position, paddle_width, paddle_height), WHITE);
-        DrawRectangleRec(ball_rec, WHITE);
+            ClearBackground(BLACK);
+            DrawRectangleRec(paddle1_rec, WHITE);
+            DrawRectangleRec(paddle2_rec, WHITE);
+            DrawRectangleRec(ball_rec, WHITE);
         EndDrawing();
     }
 
