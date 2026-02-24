@@ -5,7 +5,15 @@ constexpr float paddle_width = 20.0f;
 constexpr float paddle_height = 100.0f;
 constexpr float ball_size = 20.0f;
 
-void DrawRec(Vector2 position, float width, float height);
+Rectangle GetRec(Vector2 position/*centre*/, float width, float height)
+{
+    Rectangle rec;
+    rec.x = position.x - width * 0.5f;
+    rec.y = position.y - height * 0.5f;
+    rec.width = width;
+    rec.height = height;
+    return rec;
+}
 
 Vector2 RandomBallDirection(Vector2 direction/*Either [1, 0], or [-1, 0]*/)
 {
@@ -48,6 +56,9 @@ int main()
         paddle2_position.y = Clamp(paddle2_position.y, paddle_height * 0.5f, GetScreenHeight() - paddle_height * 0.5f);
 
         ball_position += ball_direction * ball_speed * dt;
+
+        Rectangle ball_rec = GetRec(ball_position, ball_size, ball_size);
+
         if (ball_position.y - ball_size * 0.5f <= 0.0f || ball_position.y + ball_size * 0.5f >= GetScreenHeight())
             ball_direction.y *= -1.0f;
         if (ball_position.x - ball_size * 0.5f <= 0.0f || ball_position.x + ball_size * 0.5f >= GetScreenWidth())
@@ -55,22 +66,12 @@ int main()
 
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawRec(paddle1_position, paddle_width, paddle_height);
-        DrawRec(paddle2_position, paddle_width, paddle_height);
-        DrawRec(ball_position, ball_size, ball_size);
+        DrawRectangleRec(GetRec(paddle1_position, paddle_width, paddle_height), WHITE);
+        DrawRectangleRec(GetRec(paddle2_position, paddle_width, paddle_height), WHITE);
+        DrawRectangleRec(ball_rec, WHITE);
         EndDrawing();
     }
 
     CloseWindow();
     return 0;
-}
-
-void DrawRec(Vector2 position, float width, float height)
-{
-    Rectangle rec;
-    rec.x = position.x - width * 0.5f;
-    rec.y = position.y - height * 0.5f;
-    rec.width = width;
-    rec.height = height;
-    DrawRectangleRec(rec, WHITE);
 }
