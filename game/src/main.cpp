@@ -35,6 +35,8 @@ int main()
     Vector2 paddle2_position = { GetScreenWidth() - paddle_margin, GetScreenHeight() * 0.5f };
     Vector2 ball_position = { GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f };
     Vector2 ball_direction = RandomBallDirection(Vector2UnitX);
+    int player1_score = 0;
+    int player2_score = 0;
 
     while (!WindowShouldClose())
     {
@@ -74,6 +76,7 @@ int main()
         {
             ball_position = { GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f };
             ball_direction = RandomBallDirection(Vector2UnitX * -1.0f);
+            player1_score++;
         }
 
         // Player 2 goal (right player score on left net)
@@ -81,6 +84,7 @@ int main()
         {
             ball_position = { GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f };
             ball_direction = RandomBallDirection(Vector2UnitX);
+            player2_score++;
         }
 
         BeginDrawing();
@@ -88,6 +92,15 @@ int main()
             DrawRectangleRec(paddle1_rec, WHITE);
             DrawRectangleRec(paddle2_rec, WHITE);
             DrawRectangleRec(ball_rec, WHITE);
+
+            // In case anyone ever wants to centre text:
+            int score_font = 32;
+            const char* player1_score_text = TextFormat("A really really long body of text %i", player1_score);
+            int score_y = GetScreenHeight() * 0.1f;
+            int score_x1 = GetScreenWidth() * 0.25f - MeasureText(player1_score_text, score_font) * 0.5f;
+            DrawCircle(score_x1, score_y, 10.0f, RED);
+            DrawText(player1_score_text, score_x1, score_y, 32, WHITE);
+
         EndDrawing();
     }
 
